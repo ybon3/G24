@@ -12,14 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = "/convert")
 public class ConvertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ConvertManager convertManager = new ConvertManager(
-		G24Setting.sharedFolder(),
-		G24Setting.converterPath()
-	);
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding(StandardCharsets.UTF_8.name());
-		convertManager.add(req.getParameter("fname"));
+		ConvertManager.instance.add(req.getParameter("fname"));
 	}
 }
