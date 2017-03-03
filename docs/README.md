@@ -26,6 +26,25 @@
 	<!-- 轉檔完成的 Callback URL
 		POST 參數 'fname' 為原本 call ConvertServlet 傳進來的 fname -->
 	<entry key="callback.url">http://localhost:8080/G24/finish</entry>
+	
+	<!-- ==== Database 設定區 ==== -->
+	<!-- 資料庫實體檔案存放路徑 -->
+	<entry key="db.path">d:\test\g24</entry>
+	
+	<!-- 資料庫登入帳號 -->
+	<entry key="db.username"></entry>
+	
+	<!-- 資料庫登入密碼 -->
+	<entry key="db.password"></entry>
+	
+	<!-- 設定 connection pool 的最大 connection 數
+		 預設值 30 -->
+	<entry key="db.pool.max.connections">5</entry>
+	
+	<!-- 當 connection 被用光時，等待可用 connection 的時間，單位：秒 
+		 預設值 30 -->
+	<entry key="db.pool.login.timeout">30</entry>
+	<!-- ======== -->
 </properties>
 ```
 
