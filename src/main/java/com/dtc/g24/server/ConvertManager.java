@@ -8,7 +8,6 @@ import java.util.List;
  * <ul>
  * 	<li>單一時間只會進行一個轉檔作業</li>
  * 	<li>fname 不可包含附檔名</li>
- * 	<li>fname 不可包含附檔名</li>
  * </ul>
  */
 public class ConvertManager {
@@ -64,7 +63,7 @@ public class ConvertManager {
 					);
 					p.waitFor();//會 block 住，直到 Process 執行完畢
 
-					CallBack.send(fname);
+					Callback.send(fname);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

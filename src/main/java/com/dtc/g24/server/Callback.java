@@ -12,7 +12,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-public class CallBack {
+public class Callback {
 	public static void send(String fname) {
 		HttpPost post = new HttpPost(G24Setting.callbackUrl());
 		List<NameValuePair> params = new ArrayList<>();
