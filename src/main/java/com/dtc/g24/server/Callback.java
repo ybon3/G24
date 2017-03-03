@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -22,7 +23,12 @@ public class Callback {
 		HttpClient client = HttpClientBuilder.create().build();
 
 		try {
-			client.execute(post);
+			HttpResponse response = client.execute(post);
+
+			//XXX 可能可以補強判斷方式
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				ConvertLogService.delete(fname);
+			}
 		} catch (IOException e) {
 			//Ignore
 		}

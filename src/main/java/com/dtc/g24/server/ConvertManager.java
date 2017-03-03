@@ -60,6 +60,7 @@ public class ConvertManager {
 					);
 					p.waitFor();//會 block 住，直到 Process 執行完畢
 
+					ConvertLogService.complete(fname);
 					Callback.send(fname);
 				} catch (Exception e) {
 					e.printStackTrace();
