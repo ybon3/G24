@@ -1,0 +1,12 @@
+// 使用 H2 Database
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// 轉檔紀錄
+CREATE TABLE IF NOT EXISTS `CONVERT_LOG` (
+	`SN` BIGINT NOT NULL AUTO_INCREMENT,
+	`FNAME` VARCHAR,
+	`CREATE_TIME` TIMESTAMP,
+	`COMPLETE_TIME` TIMESTAMP,
+	PRIMARY KEY (`SN`)
+);
+CREATE INDEX IF NOT EXISTS `CONVERT_LOG_INDEX_0` ON `CONVERT_LOG`(`FNAME`);

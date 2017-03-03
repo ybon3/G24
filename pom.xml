@@ -8,6 +8,10 @@
 	<packaging>war</packaging>
 
 	<properties>
+		<temp.database.filename>tempForCodeGen</temp.database.filename>
+		<jooq.codegen.package>com.dtc.g24.server.jooq</jooq.codegen.package>
+		<com.h2database.version>1.3.176</com.h2database.version>
+		<org.jooq.version>3.8.6</org.jooq.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 	</properties>
@@ -31,6 +35,18 @@
 		    <artifactId>httpclient</artifactId>
 		    <version>4.5.2</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${com.h2database.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
+			<version>${org.jooq.version}</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
@@ -38,6 +54,111 @@
 		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
 
 		<plugins>
+			<!-- SQL Maven Plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<autocommit>true</autocommit>
+							<srcFiles>
+								<srcFile>src/main/resources/database/tableSchema.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+				</executions>
+				
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${com.h2database.version}</version>
+					</dependency>
+				</dependencies>
+				
+				<configuration>
+					<driver>org.h2.Driver</driver>
+					<url>jdbc:h2:./${temp.database.filename}</url>
+					<username></username>
+					<password></password>
+				</configuration>
+			</plugin>
+			
+			<!-- JOOQ code generator plugin -->
+			<plugin>
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<version>${org.jooq.version}</version>
+			
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			
+				<configuration>
+					<jdbc>
+						<driver>org.h2.Driver</driver>
+						<url>jdbc:h2:./${temp.database.filename}</url>
+						<user></user>
+						<password></password>
+					</jdbc>
+			
+					<!-- Generator parameters -->
+					<generator>
+						<database>
+							<name>org.jooq.util.h2.H2Database</name>
+							<includes>.*</includes>
+							<excludes></excludes>
+							<inputSchema>PUBLIC</inputSchema>
+						</database>
+						<generate>
+							<pojos>true</pojos>
+							<daos>true</daos>
+						</generate>
+						<target>
+							<packageName>${jooq.codegen.package}</packageName>
+							<directory>src/main/java</directory>
+						</target>
+					</generator>
+				</configuration>
+			</plugin>
+			
+			<!-- maven clean plugin -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>./</directory>
+							<includes>
+								<include>${temp.database.filename}.h2.db</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
