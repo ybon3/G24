@@ -2,12 +2,14 @@ package com.dtc.g24.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Singleton class
  * <ul>
  * 	<li>單一時間只會進行一個轉檔作業</li>
- * 	<li>fname 不可包含附檔名</li>
  * 	<li>fname 不可包含附檔名</li>
  * </ul>
  */
@@ -20,28 +22,22 @@ public class ConvertManager {
 	// -loglevel quiet：用來關閉 log，否則 Process 會被 block 無法結束（原因不明）
 	// -y 覆寫已存在的檔案
 	private static final String EXEC = "ffmpeg -loglevel quiet -y -i ";
+	private static final int SCAN_PERIOD = 5;
 	private final String FULL_COMMAND;
 	private final String WORKSPACE;
 
-	private boolean isRunning;
 	private List<String> quene = new ArrayList<>();
-	private Thread thread;
 
 	private ConvertManager(String workspace, String convertHome) {
 		FULL_COMMAND = convertHome + EXEC;
 		WORKSPACE = workspace;
-		thread = new Thread(new ConvertProcess());
+
+		ScheduledExecutorService scanService = Executors.newSingleThreadScheduledExecutor();
+		scanService.scheduleWithFixedDelay(new ConvertProcess(), 0, SCAN_PERIOD, TimeUnit.SECONDS);
 	}
 
 	public void add(String fname) {
 		quene.add(fname);
-		synchronized (this) {
-			if (!isRunning) {
-				//單一時間只會執行一個
-				isRunning = true;
-				thread.start();
-			}
-		}
 	}
 
 	private class ConvertProcess implements Runnable {
@@ -64,13 +60,12 @@ public class ConvertManager {
 					);
 					p.waitFor();//會 block 住，直到 Process 執行完畢
 
-					CallBack.send(fname);
+					ConvertLogService.complete(fname);
+					Callback.send(fname);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-
-			isRunning = false;
 		}
 	}
 

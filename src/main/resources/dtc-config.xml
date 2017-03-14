@@ -9,4 +9,10 @@
 	
 	<!-- 轉檔完成的 Callback URL -->
 	<entry key="callback.url">http://localhost:8080/G24/finish</entry>
+	
+	<entry key="db.path">d:\test\g24</entry>
+	<entry key="db.username"></entry>
+	<entry key="db.password"></entry>
+	<entry key="db.pool.max.connections">5</entry>
+	<entry key="db.pool.login.timeout">30</entry>
 </properties>
