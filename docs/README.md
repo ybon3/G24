@@ -1,8 +1,9 @@
 執行環境
 ========
 
-* JDK 7+
+* JDK 8+
 * Tomcat 7+
+* ffmpeg 3.2.2 64-bit static (for windows) 
 
 
 設定檔
@@ -19,9 +20,6 @@
 <properties>
 	<!-- 錄影檔來源的 root path，必須 slash 結尾 -->
 	<entry key="shared.folder">d:\test\oriv\shared\</entry>
-	
-	<!-- 轉檔程式執行路徑，必須 slash 結尾，路徑下要有 ffmpeg.exe 檔 -->
-	<entry key="converter.path">D:\Tools\ffmpeg\bin\</entry>
 	
 	<!-- 轉檔完成的 Callback URL
 		POST 參數 'fname' 為原本 call ConvertServlet 傳進來的 fname -->

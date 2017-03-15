@@ -4,9 +4,6 @@
 	<!-- 錄影檔來源的 root path，必須 slash 結尾 -->
 	<entry key="shared.folder">d:\test\oriv\shared\</entry>
 	
-	<!-- 轉檔程式執行路徑，必須 slash 結尾 -->
-	<entry key="converter.path">D:\Tools\ffmpeg\bin\</entry>
-	
 	<!-- 轉檔完成的 Callback URL -->
 	<entry key="callback.url">http://localhost:8080/G24/finish</entry>
 	

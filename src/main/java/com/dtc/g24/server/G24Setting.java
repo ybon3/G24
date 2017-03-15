@@ -13,10 +13,6 @@ public class G24Setting extends DoubleProperties {
 		return instance.getProperty("shared.folder");
 	}
 
-	public static String converterPath() {
-		return instance.getProperty("converter.path");
-	}
-
 	public static String callbackUrl() {
 		return instance.getProperty("callback.url");
 	}
