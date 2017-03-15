@@ -1,5 +1,6 @@
 package com.dtc.g24.server;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -15,8 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ConvertManager {
 	public static final ConvertManager instance = new ConvertManager(
-		G24Setting.sharedFolder(),
-		G24Setting.converterPath()
+		G24Setting.sharedFolder()
 	);
 
 	// -loglevel quiet：用來關閉 log，否則 Process 會被 block 無法結束（原因不明）
@@ -28,8 +28,13 @@ public class ConvertManager {
 
 	private List<String> quene = new ArrayList<>();
 
-	private ConvertManager(String workspace, String convertHome) {
-		FULL_COMMAND = convertHome + EXEC;
+	private ConvertManager(String workspace) {
+		String execPath = new File(
+			getClass().getProtectionDomain().getCodeSource().getLocation().getPath(),
+			"ffmpeg"
+		).getAbsolutePath();
+
+		FULL_COMMAND = execPath + File.separator + EXEC;
 		WORKSPACE = workspace;
 
 		ScheduledExecutorService scanService = Executors.newSingleThreadScheduledExecutor();
