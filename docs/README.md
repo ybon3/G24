@@ -18,7 +18,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<!-- 錄影檔來源的 root path，必須 slash 結尾 -->
+	<!-- 錄影檔來源的 root path -->
 	<entry key="shared.folder">d:\test\oriv\shared\</entry>
 	
 	<!-- 轉檔完成的 Callback URL

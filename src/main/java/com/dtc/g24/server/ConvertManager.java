@@ -1,6 +1,7 @@
 package com.dtc.g24.server;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -55,8 +56,8 @@ public class ConvertManager {
 				String fname = quene.remove(0);
 
 				//必須用雙引號包起來，不然遇到空白會發生問題
-				String srcFileName = wrap(WORKSPACE + fname + ".mpg");
-				String dstFileName = wrap(WORKSPACE + fname + ".mp4");
+				String srcFileName = wrap(Paths.get(WORKSPACE, fname + ".mpg").toString());
+				String dstFileName = wrap(Paths.get(WORKSPACE, fname + ".mp4").toString());
 
 				//執行外部程序
 				Runtime rt = Runtime.getRuntime();
