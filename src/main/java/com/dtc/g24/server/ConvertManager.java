@@ -29,6 +29,9 @@ public class ConvertManager {
 	private List<String> quene = new ArrayList<>();
 
 	private ConvertManager(String workspace) {
+		//取得 runtime class folder 的方法是參考：
+		//http://stackoverflow.com/questions/11747833/getting-filesystem-path-of-class-being-executed
+		//另一個可以考慮的方法是使用 ServletContext.getRealPath() 來取得實體路徑
 		String execPath = new File(
 			getClass().getProtectionDomain().getCodeSource().getLocation().getPath(),
 			"ffmpeg"
